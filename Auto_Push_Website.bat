@@ -3,11 +3,15 @@ echo ===================================================
 echo Auto Push Website Updates to GitHub
 echo ===================================================
 echo.
+echo Fetching latest updates from GitHub...
+git pull origin main --rebase
+echo.
 echo Adding changes to git...
+git add -f assets/Solar_Quotation_Billing/*.exe
 git add .
 echo.
 echo Committing changes...
-git commit -m "Auto-update: New version of Solar ERP software added"
+git commit -m "Auto-update: New version of Solar ERP software and Website updates"
 echo.
 echo Pushing to GitHub...
 git push origin main

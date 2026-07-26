@@ -8,6 +8,7 @@ git pull origin main --rebase --autostash
 echo.
 echo Adding changes to git...
 git add -f assets/Solar_Quotation_Billing/*.exe
+git add -f assets/Solar_Quotation_Billing/*.msi
 git add .
 echo.
 echo Committing changes...

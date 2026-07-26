@@ -4,7 +4,7 @@ echo Auto Push Website Updates to GitHub
 echo ===================================================
 echo.
 echo Fetching latest updates from GitHub...
-git pull origin main --rebase
+git pull origin main --rebase --autostash
 echo.
 echo Adding changes to git...
 git add -f assets/Solar_Quotation_Billing/*.exe

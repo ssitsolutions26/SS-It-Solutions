@@ -8,11 +8,10 @@ git pull origin main --rebase --autostash
 echo.
 echo Adding changes to git...
 git add -f assets/Solar_Quotation_Billing/*.exe
-git add -f assets/Solar_Quotation_Billing/*.msi
 git add .
 echo.
 echo Committing changes...
-git commit -m "Auto-update: New version of Solar ERP software and Website updates"
+git commit -m "Auto-update: Solar ERP Version 1.3 and Website updates"
 echo.
 echo Pushing to GitHub...
 git push origin main

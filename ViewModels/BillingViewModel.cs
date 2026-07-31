@@ -110,16 +110,6 @@ namespace SolarQuotationBillingSystem.ViewModels
         }
 
         [RelayCommand]
-        private async Task ReprintBill(QuotationListModel selectedQuotation)
-        {
-            if (selectedQuotation == null) return;
-
-            var ivm = new InvoiceViewModel();
-            await ivm.LoadInvoiceDataAsync(selectedQuotation.QuotationID);
-            ivm.ExportPdfDirect();
-        }
-
-        [RelayCommand]
         private async Task PrintQuotation(QuotationListModel selectedQuotation)
         {
             if (selectedQuotation == null) return;

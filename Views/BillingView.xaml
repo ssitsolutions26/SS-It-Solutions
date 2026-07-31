@@ -64,25 +64,6 @@
                                             </Style>
                                         </Button.Style>
                                     </Button>
-
-                                    <!-- Reprint Bill -->
-                                    <Button Content="Reprint Bill" 
-                                            Command="{Binding DataContext.ReprintBillCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                            CommandParameter="{Binding}"
-                                            Height="30" FontSize="11" Cursor="Hand" Margin="2,0" Background="#4CAF50" BorderBrush="#4CAF50">
-                                        <Button.Style>
-                                            <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
-                                                <Setter Property="IsEnabled" Value="False"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Status}" Value="Paid">
-                                                        <Setter Property="IsEnabled" Value="True"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>
-
-                                    <!-- Share WhatsApp -->
                                     <Button Command="{Binding DataContext.ShareWhatsAppCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                             CommandParameter="{Binding}"
                                             Style="{StaticResource MaterialDesignIconForegroundButton}"

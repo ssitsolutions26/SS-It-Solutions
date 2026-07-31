@@ -1,6 +1,6 @@
 [Setup]
 AppName=Solar Quotation & Billing System
-AppVersion=1.2
+AppVersion=1.3
 DefaultDirName={autopf}\Solar Quotation Billing System
 DefaultGroupName=Solar Quotation Billing System
 OutputDir=Output

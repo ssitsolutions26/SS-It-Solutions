@@ -54,7 +54,7 @@ namespace SolarQuotationBillingSystem.Helpers
                         }
 
                         // Company Name in one line
-                        col.Item().Text("ADISH ENTERPRISES").FontFamily("Segoe UI").FontSize(24).FontColor("#1976D2").Bold();
+                        col.Item().Text(_model.MyCompanyName).FontFamily("Segoe UI").FontSize(24).FontColor("#1976D2").Bold();
                         col.Item().Text("COMPLETE SOLAR SOLUTION").FontFamily("Segoe UI").FontSize(11).FontColor("#FF8C00").SemiBold();
                     });
                     
@@ -104,6 +104,14 @@ namespace SolarQuotationBillingSystem.Helpers
                         col.Item().Text(text => { text.Span("Quotation No: ").Bold(); text.Span(_model.QuotationNo); });
                         col.Item().Text(text => { text.Span("Date: ").Bold(); text.Span(_model.QuotationDate.ToString("dd MMMM yyyy")); });
                         col.Item().Text(text => { text.Span("Valid Until: ").Bold(); text.Span(_model.ValidUntil.ToString("dd MMMM yyyy")); });
+                        if (!string.IsNullOrWhiteSpace(_model.MyCompanyGstNumber))
+                        {
+                            col.Item().Text(text => { text.Span("GST No: ").Bold(); text.Span(_model.MyCompanyGstNumber); });
+                        }
+                        if (!string.IsNullOrWhiteSpace(_model.MyCompanyPAN))
+                        {
+                            col.Item().Text(text => { text.Span("PAN No: ").Bold(); text.Span(_model.MyCompanyPAN); });
+                        }
                     });
                 });
 
@@ -216,7 +224,7 @@ namespace SolarQuotationBillingSystem.Helpers
         {
             container.Row(row =>
             {
-                row.RelativeItem().Text("* This is a computer-generated document and requires adjustment of placeholders before submission.").FontSize(8).FontColor(Colors.Grey.Medium);
+                row.RelativeItem().Text("* This is a computer-generated quotation. No signature is required. The information provided herein is completely valid and authentic.").FontSize(8).FontColor(Colors.Grey.Medium);
                 row.ConstantItem(100).AlignRight().Text(x =>
                 {
                     x.Span("Page ");

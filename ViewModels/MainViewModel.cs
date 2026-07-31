@@ -13,6 +13,15 @@ namespace SolarQuotationBillingSystem.ViewModels
         private bool _isLoggedIn;
 
         [ObservableProperty]
+        private string _currentUsername = string.Empty;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsAdmin))]
+        private string _currentUserRole = string.Empty;
+
+        public bool IsAdmin => CurrentUserRole == "Admin";
+
+        [ObservableProperty]
         private bool _isMenuOpen;
 
         public MainViewModel()
@@ -75,5 +84,26 @@ namespace SolarQuotationBillingSystem.ViewModels
 
         [RelayCommand]
         private void NavUserManagement() => NavigateTo(new UserManagementViewModel());
+
+        [RelayCommand]
+        private void NavBillDelete() => NavigateTo(new BillDeleteViewModel());
+
+        [RelayCommand]
+        private void CheckUpdate()
+        {
+            try
+            {
+                var psi = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "https://ssitsolutions26.github.io/SS-It-Solutions/#updates",
+                    UseShellExecute = true
+                };
+                System.Diagnostics.Process.Start(psi);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error opening update link: {ex.Message}");
+            }
+        }
     }
 }

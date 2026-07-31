@@ -54,7 +54,7 @@ namespace SolarQuotationBillingSystem.Helpers
                         }
 
                         // Company Name in one line
-                        col.Item().Text("ADISH ENTERPRISES").FontFamily("Segoe UI").FontSize(24).FontColor("#1976D2").Bold();
+                        col.Item().Text(_model.MyCompanyName).FontFamily("Segoe UI").FontSize(24).FontColor("#1976D2").Bold();
                         col.Item().Text("COMPLETE SOLAR SOLUTION").FontFamily("Segoe UI").FontSize(11).FontColor("#FF8C00").SemiBold();
                     });
                     
@@ -106,6 +106,10 @@ namespace SolarQuotationBillingSystem.Helpers
                         if (!string.IsNullOrWhiteSpace(_model.CompanyGstNumber))
                         {
                             col.Item().Text(text => { text.Span("GST No: ").Bold(); text.Span(_model.CompanyGstNumber); });
+                        }
+                        if (!string.IsNullOrWhiteSpace(_model.MyCompanyPAN))
+                        {
+                            col.Item().Text(text => { text.Span("PAN No: ").Bold(); text.Span(_model.MyCompanyPAN); });
                         }
                     });
                 });
@@ -214,7 +218,7 @@ namespace SolarQuotationBillingSystem.Helpers
         {
             container.Row(row =>
             {
-                row.RelativeItem().Text("* This is a computer-generated document and requires adjustment of placeholders before submission.").FontSize(8).FontColor(Colors.Grey.Medium);
+                row.RelativeItem().Text("* This is a computer-generated invoice. No signature is required. The information provided herein is completely valid and authentic.").FontSize(8).FontColor(Colors.Grey.Medium);
                 row.ConstantItem(100).AlignRight().Text(x =>
                 {
                     x.Span("Page ");

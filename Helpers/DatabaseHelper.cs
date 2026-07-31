@@ -273,8 +273,53 @@ namespace SolarQuotationBillingSystem.Helpers
                         Balance DECIMAL(18,2) NOT NULL,
                         PaymentMode NVARCHAR(50) NOT NULL,
                         AmountInWords NVARCHAR(500) NOT NULL,
+                        PaymentStatus NVARCHAR(50) DEFAULT 'Pending',
                         FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
                     );
+                END
+                ELSE
+                BEGIN
+                    IF NOT EXISTS(SELECT * FROM sys.columns WHERE Name = N'PaymentStatus' AND Object_ID = Object_ID(N'Invoice'))
+                    BEGIN
+                        ALTER TABLE Invoice ADD PaymentStatus NVARCHAR(50) DEFAULT 'Pending';
+                        EXEC('UPDATE Invoice SET PaymentStatus = ''Paid'' WHERE Balance <= 0');
+                        EXEC('UPDATE Invoice SET PaymentStatus = ''Partial'' WHERE Balance > 0 AND Paid > 0');
+                    END
+                END
+
+                IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='PaymentHistory' and xtype='U')
+                BEGIN
+                    CREATE TABLE PaymentHistory (
+                        PaymentID INT PRIMARY KEY IDENTITY(1,1),
+                        InvoiceNo NVARCHAR(50) NOT NULL,
+                        PaymentDate DATETIME NOT NULL,
+                        PaidAmount DECIMAL(18,2) NOT NULL,
+                        PaymentMode NVARCHAR(50) NOT NULL,
+                        ReferenceNo NVARCHAR(100),
+                        Remarks NVARCHAR(MAX)
+                    );
+                END
+
+                IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='BillDeleteLog' and xtype='U')
+                BEGIN
+                    CREATE TABLE BillDeleteLog (
+                        LogID INT PRIMARY KEY IDENTITY(1,1),
+                        InvoiceNo NVARCHAR(50) NOT NULL,
+                        QuotationNo NVARCHAR(50),
+                        CustomerName NVARCHAR(100),
+                        DeletedBy NVARCHAR(50) NOT NULL,
+                        DeletedDate DATETIME NOT NULL DEFAULT GETDATE(),
+                        Reason NVARCHAR(MAX) NOT NULL,
+                        MachineName NVARCHAR(100) NOT NULL
+                    );
+                END
+                ELSE
+                BEGIN
+                    IF NOT EXISTS(SELECT * FROM sys.columns WHERE Name = N'CustomerName' AND Object_ID = Object_ID(N'BillDeleteLog'))
+                    BEGIN
+                        ALTER TABLE BillDeleteLog ADD CustomerName NVARCHAR(100) NULL;
+                        ALTER TABLE BillDeleteLog ALTER COLUMN Reason NVARCHAR(MAX) NOT NULL;
+                    END
                 END
 
                 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='InvoiceItems' and xtype='U')

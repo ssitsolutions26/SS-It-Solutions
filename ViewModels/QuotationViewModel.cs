@@ -18,6 +18,18 @@ namespace SolarQuotationBillingSystem.ViewModels
         private int? _editingQuotationId = null;
 
         // -----------------------------------------------------------
+        // MY COMPANY DETAILS
+        // -----------------------------------------------------------
+        [ObservableProperty]
+        private string myCompanyName = "ADISH ENTERPRISES";
+        
+        [ObservableProperty]
+        private string myCompanyPAN = string.Empty;
+        
+        [ObservableProperty]
+        private string myCompanyGstNumber = string.Empty;
+
+        // -----------------------------------------------------------
         // CUSTOMER DETAILS
         // -----------------------------------------------------------
         [ObservableProperty]
@@ -263,11 +275,15 @@ namespace SolarQuotationBillingSystem.ViewModels
             {
                 using var conn = new SqlConnection(DatabaseHelper.ConnectionString);
                 conn.Open();
-                var cmd = new SqlCommand("SELECT TOP 1 StateCode FROM Settings", conn);
-                var result = cmd.ExecuteScalar();
-                if (result != null && result != DBNull.Value)
+                var cmd = new SqlCommand("SELECT TOP 1 CompanyName, GSTNumber, CompanyPAN, StateCode FROM Settings", conn);
+                using var reader = cmd.ExecuteReader();
+                if (reader.Read())
                 {
-                    CompanyStateCode = result.ToString() ?? "";
+                    string cName = reader["CompanyName"]?.ToString() ?? "";
+                    if (!string.IsNullOrWhiteSpace(cName)) MyCompanyName = cName;
+                    MyCompanyGstNumber = reader["GSTNumber"]?.ToString() ?? "";
+                    MyCompanyPAN = reader["CompanyPAN"]?.ToString() ?? "";
+                    CompanyStateCode = reader["StateCode"]?.ToString() ?? "";
                 }
             }
             catch { }

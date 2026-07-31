@@ -67,6 +67,9 @@
         <DataTemplate DataType="{x:Type viewmodels:QuotationBillingModuleViewModel}">
             <views:QuotationBillingModuleView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:BillDeleteViewModel}">
+            <views:BillDeleteView />
+        </DataTemplate>
         
         <!-- Boolean to Visibility Converter for showing/hiding Shell -->
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
@@ -98,7 +101,7 @@
 
                     <!-- Sidebar Header (Logo) -->
                     <StackPanel Grid.Row="0" Margin="16,24,16,24" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <materialDesign:PackIcon Kind="WhiteBalanceSunny" Width="36" Height="36" Foreground="{DynamicResource PrimaryHueMidBrush}" VerticalAlignment="Center"/>
+                        <Image Source="pack://application:,,,/Assets/logo.png" Width="36" Height="36" VerticalAlignment="Center" Stretch="Uniform"/>
                         <TextBlock Text="Solar ERP" FontSize="24" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
 
@@ -159,7 +162,7 @@
                                 </StackPanel>
                             </Button>
                             
-                            <Expander Background="Transparent" BorderThickness="0">
+                            <Expander Background="Transparent" BorderThickness="0" Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVis}}">
                                 <Expander.Header>
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="ShieldAccount" Width="20" Height="20" Margin="0,0,16,0" VerticalAlignment="Center"/>
@@ -187,8 +190,24 @@
                                             <TextBlock Text="Restore" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Button>
+
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavBillDeleteCommand}" HorizontalContentAlignment="Left" Padding="16,10" Height="45">
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="DeleteForever" Width="20" Height="20" Margin="0,0,16,0"/>
+                                            <TextBlock Text="Bill Delete" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
                                 </StackPanel>
                             </Expander>
+
+                            <Separator Margin="16,8" Background="{DynamicResource MaterialDesignDivider}"/>
+
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding CheckUpdateCommand}" HorizontalContentAlignment="Left" Padding="16,10" Height="45">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Update" Width="20" Height="20" Margin="0,0,16,0" Foreground="Green"/>
+                                    <TextBlock Text="Check Update" VerticalAlignment="Center" FontWeight="Bold"/>
+                                </StackPanel>
+                            </Button>
 
                         </StackPanel>
                     </ScrollViewer>

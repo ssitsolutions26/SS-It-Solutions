@@ -24,6 +24,8 @@ namespace SolarQuotationBillingSystem.ViewModels
         [ObservableProperty] private string gstNumber = string.Empty;
         
         // Company Details
+        [ObservableProperty] private string myCompanyName = "ADISH ENTERPRISES";
+        [ObservableProperty] private string myCompanyPAN = string.Empty;
         [ObservableProperty] private string companyGstNumber = string.Empty;
 
         // Invoice Details
@@ -120,14 +122,25 @@ namespace SolarQuotationBillingSystem.ViewModels
                 using var conn = new SqlConnection(DatabaseHelper.ConnectionString);
                 await conn.OpenAsync();
 
-                // Load Quotation & Customer Details
+                // Load Settings
+                using (var cmdSettings = new SqlCommand("SELECT TOP 1 CompanyName, GSTNumber, CompanyPAN FROM Settings", conn))
+                using (var readerSettings = await cmdSettings.ExecuteReaderAsync())
+                {
+                    if (await readerSettings.ReadAsync())
+                    {
+                        string cName = readerSettings["CompanyName"]?.ToString() ?? "";
+                        if (!string.IsNullOrWhiteSpace(cName)) MyCompanyName = cName;
+                        CompanyGstNumber = readerSettings["GSTNumber"]?.ToString() ?? "";
+                        MyCompanyPAN = readerSettings["CompanyPAN"]?.ToString() ?? "";
+                    }
+                }
+
+                // Load Invoice Header
                 var query = @"
                     SELECT q.*, c.CustomerName, c.Mobile, c.Address, c.City, c.GSTNumber 
                     FROM Quotation q
                     INNER JOIN Customers c ON q.CustomerID = c.CustomerID
                     WHERE q.QuotationID = @id;
-                    
-                    SELECT TOP 1 GSTNumber FROM Settings;
                 ";
                 using var cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@id", _quotationId);
@@ -286,11 +299,27 @@ namespace SolarQuotationBillingSystem.ViewModels
                         InvoiceNo = @invNo,
                         PaymentMode = @mode, 
                         PaymentRefNo = @refNo 
-                    WHERE QuotationID = @id", conn);
+                    WHERE QuotationID = @id;
+                    
+                    IF NOT EXISTS (SELECT 1 FROM Invoice WHERE InvoiceNo = @invNo)
+                    BEGIN
+                        INSERT INTO Invoice (InvoiceNo, InvoiceDate, CustomerID, Subtotal, TotalGST, TotalCGST, TotalSGST, TotalIGST, RoundOff, Discount, GrandTotal, Paid, Balance, PaymentMode, AmountInWords, PaymentStatus)
+                        VALUES (@invNo, GETDATE(), (SELECT CustomerID FROM Quotation WHERE QuotationID = @id), @subtotal, @totalGst, @cgst, @sgst, @igst, @roundOff, 0, @grandTotal, 0, @grandTotal, @mode, @words, 'Pending');
+                    END
+                ", conn);
                 cmd.Parameters.AddWithValue("@invNo", InvoiceNo);
                 cmd.Parameters.AddWithValue("@mode", SelectedPaymentMode ?? "Cash");
                 cmd.Parameters.AddWithValue("@refNo", string.IsNullOrWhiteSpace(PaymentRefNo) ? (object)DBNull.Value : PaymentRefNo);
                 cmd.Parameters.AddWithValue("@id", _quotationId);
+                
+                cmd.Parameters.AddWithValue("@subtotal", TotalTaxableAmount);
+                cmd.Parameters.AddWithValue("@totalGst", TotalCGST + TotalSGST + TotalIGST);
+                cmd.Parameters.AddWithValue("@cgst", TotalCGST);
+                cmd.Parameters.AddWithValue("@sgst", TotalSGST);
+                cmd.Parameters.AddWithValue("@igst", TotalIGST);
+                cmd.Parameters.AddWithValue("@roundOff", RoundOff);
+                cmd.Parameters.AddWithValue("@grandTotal", NetPayable);
+                cmd.Parameters.AddWithValue("@words", AmountInWords ?? "");
                 cmd.ExecuteNonQuery();
 
                 MessageBox.Show($"Final Bill {InvoiceNo} generated successfully! Status updated to Paid.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);

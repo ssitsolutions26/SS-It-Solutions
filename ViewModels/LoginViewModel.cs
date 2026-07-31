@@ -78,6 +78,8 @@ namespace SolarQuotationBillingSystem.ViewModels
                         
                         if (!string.IsNullOrEmpty(role))
                         {
+                            _mainViewModel.CurrentUserRole = role;
+                            _mainViewModel.CurrentUsername = Username;
                             _mainViewModel.IsLoggedIn = true;
                             _mainViewModel.NavigateTo(new DashboardViewModel(_mainViewModel));
                         }

@@ -1,7 +1,7 @@
 {
   "solar": {
-    "version": "v1.1.0",
-    "date": "July 23, 2026"
+    "version": "v1.4.0",
+    "date": "August 1, 2026"
   },
   "bmp": {
     "version": "v1.5.0",

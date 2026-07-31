@@ -11,7 +11,7 @@ git add -f assets/Solar_Quotation_Billing/*.exe
 git add .
 echo.
 echo Committing changes...
-git commit -m "Auto-update: Solar ERP Version 1.3 and Website updates"
+    git commit -m "Auto-update: Solar ERP Version 1.4.0 and Website updates"
 echo.
 echo Pushing to GitHub...
 git push origin main

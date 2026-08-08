@@ -212,7 +212,7 @@
 // --- GitHub Auto-Update Version Logic ---
 async function fetchLatestSolarVersion() {
     // Current repo. Change this if Solar is in a different repo like 'ssitsolutions26/SolarApp'
-    const repo = "ssitsolutions26/SS-It-Solutions"; 
+    const repo = "ssitsolutions26/ssitsolutions"; 
     try {
         const response = await fetch('https://api.github.com/repos/' + repo + '/releases/latest');
         if (!response.ok) return;

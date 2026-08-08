@@ -1,4 +1,4 @@
-﻿# Deployment Guide
+# Deployment Guide
 
 The website is currently configured to deploy automatically via GitHub Pages.
 
@@ -9,5 +9,5 @@ If you need to deploy manually:
 3. Select the main branch as the source.
 4. The site will automatically build and deploy.
 
-## Future CI/CD
-In Phase 11, a GitHub Actions workflow will be implemented to handle deployments more robustly.
+## CI/CD Pipeline
+A GitHub Actions workflow (`.github/workflows/deploy.yml`) has been implemented to handle deployments automatically. Any pushes or merges into the `main` branch will trigger an automatic build and deployment to GitHub Pages.

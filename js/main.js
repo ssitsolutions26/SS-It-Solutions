@@ -1,4 +1,4 @@
-﻿
+
         // Contact Modal Logic
         const btnCallWhatsapp = document.getElementById('btn-call-whatsapp');
         const contactModal = document.getElementById('contact-modal');
@@ -209,3 +209,34 @@
             });
         }
     
+// --- GitHub Auto-Update Version Logic ---
+async function fetchLatestSolarVersion() {
+    // Current repo. Change this if Solar is in a different repo like 'ssitsolutions26/SolarApp'
+    const repo = "ssitsolutions26/SS-It-Solutions"; 
+    try {
+        const response = await fetch('https://api.github.com/repos/' + repo + '/releases/latest');
+        if (!response.ok) return;
+        
+        const data = await response.json();
+        const latestVersion = data.tag_name;
+        
+        const releaseDate = new Date(data.published_at).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        const versionEl = document.getElementById('solar-version');
+        const dateEl = document.getElementById('solar-date');
+
+        if (versionEl && latestVersion) {
+            versionEl.textContent = latestVersion + ' (Web App)';
+        }
+        if (dateEl && releaseDate) {
+            dateEl.textContent = 'Released: ' + releaseDate;
+        }
+    } catch (error) {
+        console.error("Error fetching release:", error);
+    }
+}
+document.addEventListener('DOMContentLoaded', fetchLatestSolarVersion);

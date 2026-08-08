@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Settings - Solar ERP Admin</title>
+    <!-- Light Theme Stylesheet -->
+    <link rel="stylesheet" href="css/company-settings.css">
+</head>
+<body>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- ERP Header / Navbar -->
+    <header class="erp-header">
+        <div class="erp-brand">
+            <img src="assets/logo.png" alt="Company Logo" class="company-logo-target">
+            <div class="erp-brand-text">
+                <span class="erp-brand-title company-name-target">SS IT Solutions</span>
+                <span class="erp-brand-subtitle">Solar ERP • Admin Settings</span>
+            </div>
+        </div>
+        <div class="erp-nav-actions">
+            <a href="index.html" class="btn-erp btn-erp-outline">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to Website
+            </a>
+            <button class="btn-erp btn-erp-primary" id="saveSettingsBtnTop" onclick="saveCompanySettingsForm()">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Save Settings
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="erp-container">
+
+        <!-- Page Header Bar -->
+        <div class="page-title-bar">
+            <div class="page-title-text">
+                <h1>Company Profile & System Settings</h1>
+                <p>Configure your company details, branding, GST, bank, and invoice rules. Auto-applies everywhere in Solar ERP.</p>
+            </div>
+            <div class="action-buttons">
+                <button class="btn-erp btn-erp-secondary" id="resetSettingsBtn">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                    Reset Defaults
+                </button>
+                <button class="btn-erp btn-erp-outline" id="previewSettingsBtn">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    Live Invoice & PDF Preview
+                </button>
+                <button class="btn-erp btn-erp-primary" id="saveSettingsBtn">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                    Save & Auto-Apply
+                </button>
+            </div>
+        </div>
+
+        <!-- Grid Layout -->
+        <div class="settings-grid">
+
+            <!-- Sidebar Nav Tabs -->
+            <nav class="settings-nav">
+                <div class="nav-item active" data-target="cardCompanyInfo">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    Company Information
+                </div>
+                <div class="nav-item" data-target="cardContactDetails">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                    Contact Details
+                </div>
+                <div class="nav-item" data-target="cardBankDetails">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                    Bank & Payment Details
+                </div>
+                <div class="nav-item" data-target="cardDigitalSignature">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                    Digital Signature
+                </div>
+                <div class="nav-item" data-target="cardInvoiceSettings">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    Invoice & Tax Settings
+                </div>
+                <div class="nav-item" data-target="cardSocialMedia">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                    Social Media
+                </div>
+            </nav>
+
+            <!-- Main Form Content -->
+            <form id="companySettingsForm" class="settings-content" onsubmit="return false;">
+
+                <!-- 1. Company Information -->
+                <div class="card-erp" id="cardCompanyInfo">
+                    <div class="card-erp-header">
+                        <h3>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                            Company & Business Profile
+                        </h3>
+                    </div>
+                    <div class="card-erp-body">
+                        <!-- Company Logo Upload -->
+                        <div class="form-group full-width" style="margin-bottom: 20px;">
+                            <label class="form-label">Company Logo (PNG, JPG, JPEG - Max 2MB)</label>
+                            <div class="upload-zone" onclick="document.getElementById('logoInput').click()">
+                                <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                <div class="upload-text">Click or Drag Logo to Upload</div>
+                                <div class="upload-hint">Appears on Invoices, Quotations, Receipts & Dashboard Header</div>
+                                <input type="file" id="logoInput" accept="image/png, image/jpeg, image/jpg" style="display: none;">
+                            </div>
+                            <div class="preview-container">
+                                <img id="logoPreview" class="preview-img" src="" alt="Logo Preview" style="display: none;">
+                                <button type="button" id="removeLogoBtn" class="btn-erp btn-erp-danger" style="display: none;">Remove Logo</button>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Company Name <span class="required">*</span></label>
+                                <input type="text" id="companyName" class="form-control-erp" placeholder="e.g. SS IT Solutions" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Business Name</label>
+                                <input type="text" id="businessName" class="form-control-erp" placeholder="e.g. SS IT Solutions Pvt Ltd">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Owner / Director Name</label>
+                                <input type="text" id="ownerName" class="form-control-erp" placeholder="e.g. Shashank Sharma">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">GST Number</label>
+                                <input type="text" id="gstNo" class="form-control-erp" placeholder="e.g. 07AAAAA0000A1Z5">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">PAN Number</label>
+                                <input type="text" id="panNo" class="form-control-erp" placeholder="e.g. ABCDE1234F">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Business Registration No</label>
+                                <input type="text" id="registrationNo" class="form-control-erp" placeholder="e.g. REG-2026-SSIT-889">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label class="form-label">Address Line 1</label>
+                                <input type="text" id="address1" class="form-control-erp" placeholder="Plot / Shop No, Building Name, Street">
+                            </div>
+                            <div class="form-group full-width">
+                                <label class="form-label">Address Line 2</label>
+                                <input type="text" id="address2" class="form-control-erp" placeholder="Area, Landmark">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">City</label>
+                                <input type="text" id="city" class="form-control-erp" placeholder="e.g. New Delhi">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">State</label>
+                                <input type="text" id="state" class="form-control-erp" placeholder="e.g. Delhi">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Country</label>
+                                <input type="text" id="country" class="form-control-erp" placeholder="e.g. India">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">PIN Code</label>
+                                <input type="text" id="pincode" class="form-control-erp" placeholder="e.g. 110001">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Contact Details -->
+                <div class="card-erp" id="cardContactDetails">
+                    <div class="card-erp-header">
+                        <h3>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                            Contact Details
+                        </h3>
+                    </div>
+                    <div class="card-erp-body">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Mobile Number</label>
+                                <input type="text" id="mobile" class="form-control-erp" placeholder="+91 98765 43210">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Alternate Mobile</label>
+                                <input type="text" id="alternateMobile" class="form-control-erp" placeholder="+91 91234 56789">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Primary Email ID</label>
+                                <input type="email" id="email" class="form-control-erp" placeholder="contact@company.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Support Email</label>
+                                <input type="email" id="supportEmail" class="form-control-erp" placeholder="support@company.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Official Website</label>
+                                <input type="text" id="website" class="form-control-erp" placeholder="https://www.company.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Support Phone Number</label>
+                                <input type="text" id="supportPhone" class="form-control-erp" placeholder="+91 1800 123 4567">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Bank & Payment Details -->
+                <div class="card-erp" id="cardBankDetails">
+                    <div class="card-erp-header">
+                        <h3>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                            Bank & Payment Details
+                        </h3>
+                    </div>
+                    <div class="card-erp-body">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Bank Name</label>
+                                <input type="text" id="bankName" class="form-control-erp" placeholder="e.g. HDFC Bank">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Account Holder Name</label>
+                                <input type="text" id="accountHolder" class="form-control-erp" placeholder="e.g. SS IT Solutions Pvt Ltd">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Account Number</label>
+                                <input type="text" id="accountNumber" class="form-control-erp" placeholder="e.g. 50200012345678">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">IFSC Code</label>
+                                <input type="text" id="ifsc" class="form-control-erp" placeholder="e.g. HDFC0001234">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Branch</label>
+                                <input type="text" id="branch" class="form-control-erp" placeholder="e.g. Connaught Place, New Delhi">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">UPI ID</label>
+                                <input type="text" id="upi" class="form-control-erp" placeholder="e.g. company@upi">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label class="form-label">Payment QR Code Image</label>
+                                <div class="upload-zone" onclick="document.getElementById('qrInput').click()">
+                                    <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                                    <div class="upload-text">Upload Payment QR Code</div>
+                                    <div class="upload-hint">Prints on Invoices for instant UPI scan & pay</div>
+                                    <input type="file" id="qrInput" accept="image/png, image/jpeg, image/jpg" style="display: none;">
+                                </div>
+                                <div class="preview-container">
+                                    <img id="qrPreview" class="preview-img" src="" alt="QR Preview" style="display: none;">
+                                    <button type="button" id="removeQrBtn" class="btn-erp btn-erp-danger" style="display: none;">Remove QR</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Digital Signature -->
+                <div class="card-erp" id="cardDigitalSignature">
+                    <div class="card-erp-header">
+                        <h3>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                            Digital Signature
+                        </h3>
+                    </div>
+                    <div class="card-erp-body">
+                        <div class="form-group full-width">
+                            <label class="form-label">Upload Authorized Digital Signature (PNG with transparent background recommended)</label>
+                            <div class="upload-zone" onclick="document.getElementById('sigInput').click()">
+                                <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                <div class="upload-text">Click to Upload Signature Image</div>
+                                <div class="upload-hint">Automatically stamps at Bottom Right of all Invoices & Quotations</div>
+                                <input type="file" id="sigInput" accept="image/png, image/jpeg, image/jpg" style="display: none;">
+                            </div>
+                            <div class="preview-container">
+                                <img id="sigPreview" class="preview-img" src="" alt="Signature Preview" style="display: none;">
+                                <button type="button" id="removeSigBtn" class="btn-erp btn-erp-danger" style="display: none;">Remove Signature</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Invoice & Tax Settings -->
+                <div class="card-erp" id="cardInvoiceSettings">
+                    <div class="card-erp-header">
+                        <h3>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            Invoice & Tax Settings
+                        </h3>
+                    </div>
+                    <div class="card-erp-body">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Invoice Prefix</label>
+                                <input type="text" id="invoicePrefix" class="form-control-erp" placeholder="INV-2026-">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Quotation Prefix</label>
+                                <input type="text" id="quotationPrefix" class="form-control-erp" placeholder="QTN-2026-">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Receipt Prefix</label>
+                                <input type="text" id="receiptPrefix" class="form-control-erp" placeholder="REC-2026-">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Starting Bill Number</label>
+                                <input type="number" id="billStartNo" class="form-control-erp" placeholder="1001">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Tax Type</label>
+                                <select id="taxType" class="form-control-erp">
+                                    <option value="exclusive">GST Exclusive</option>
+                                    <option value="inclusive">GST Inclusive</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Default GST %</label>
+                                <input type="number" id="gstPercent" class="form-control-erp" placeholder="18">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">CGST %</label>
+                                <input type="number" id="cgst" class="form-control-erp" placeholder="9">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">SGST %</label>
+                                <input type="number" id="sgst" class="form-control-erp" placeholder="9">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">IGST %</label>
+                                <input type="number" id="igst" class="form-control-erp" placeholder="18">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Currency Symbol</label>
+                                <select id="currency" class="form-control-erp">
+                                    <option value="₹ (INR)">₹ (INR)</option>
+                                    <option value="$ (USD)">$ (USD)</option>
+                                    <option value="€ (EUR)">€ (EUR)</option>
+                                    <option value="£ (GBP)">£ (GBP)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label class="form-label">Invoice Footer Message</label>
+                                <input type="text" id="footerText" class="form-control-erp" placeholder="Thank you for your business!">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label class="form-label">Terms & Conditions</label>
+                                <textarea id="termsConditions" class="form-control-erp" placeholder="Enter standard invoice terms & conditions..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Social Media -->
+                <div class="card-erp" id="cardSocialMedia">
+                    <div class="card-erp-header">
+                        <h3>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                            Social Media & Channels
+                        </h3>
+                    </div>
+                    <div class="card-erp-body">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Facebook URL</label>
+                                <input type="text" id="facebook" class="form-control-erp" placeholder="https://facebook.com/yourpage">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Instagram URL</label>
+                                <input type="text" id="instagram" class="form-control-erp" placeholder="https://instagram.com/yourhandle">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">WhatsApp Number</label>
+                                <input type="text" id="whatsApp" class="form-control-erp" placeholder="+91 98765 43210">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">YouTube Channel</label>
+                                <input type="text" id="youTube" class="form-control-erp" placeholder="https://youtube.com/c/yourchannel">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Live Invoice & PDF Preview Modal (Light Theme) -->
+    <div id="previewModal" class="modal-overlay">
+        <div class="modal-card-preview">
+            <div class="modal-header">
+                <h3 style="font-size: 16px; font-weight: 700; color: #0F172A;">
+                    Auto-Applied Tax Invoice & PDF Export Preview
+                </h3>
+                <button id="closePreviewModalBtn" class="btn-erp btn-erp-secondary" style="padding: 4px 10px;">Close ✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="invoice-template">
+                    <!-- Invoice Header -->
+                    <div class="inv-top-bar">
+                        <div class="inv-top-left">
+                            <img id="previewInvLogo" src="assets/logo.png" alt="Company Logo">
+                        </div>
+                        <div class="inv-top-center">
+                            <div id="previewInvCompName" class="inv-company-name">COMPANY NAME</div>
+                            <div id="previewInvCompMeta" class="inv-company-meta">
+                                Address details, GSTIN, Email & Phone
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 18px; font-weight: 800; color: #0284C7;">TAX INVOICE</div>
+                            <div style="font-size: 12px; color: #64748B;">Inv No: INV-2026-1001</div>
+                            <div style="font-size: 12px; color: #64748B;">Date: August 8, 2026</div>
+                        </div>
+                    </div>
+
+                    <!-- Customer & Bank Info Grid -->
+                    <div class="inv-details-grid">
+                        <div>
+                            <strong style="color: #0284C7;">Billed To:</strong><br>
+                            <strong>Solar Tech Solutions Ltd</strong><br>
+                            Sector 62, Noida, UP<br>
+                            GSTIN: 09ABCDE5678F1Z2
+                        </div>
+                        <div id="previewInvBank">
+                            <strong>Bank Details:</strong><br>
+                            HDFC Bank | A/c: 50200012345678
+                        </div>
+                    </div>
+
+                    <!-- Invoice Line Items Table -->
+                    <table class="inv-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Item Description</th>
+                                <th>Qty</th>
+                                <th>Rate</th>
+                                <th>GST %</th>
+                                <th style="text-align: right;">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Solar Quotation & Billing Software License (Enterprise)</td>
+                                <td>1</td>
+                                <td>₹25,000</td>
+                                <td>18%</td>
+                                <td style="text-align: right;">₹29,500</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Signature & Footer Section -->
+                    <div class="inv-bottom-section">
+                        <div style="max-width: 60%;">
+                            <strong style="color: #0F172A;">Terms & Conditions:</strong>
+                            <div id="previewInvTerms" style="white-space: pre-line; color: #475569; font-size: 11px; margin-top: 4px;"></div>
+                        </div>
+                        <div class="inv-signature-box">
+                            <img id="previewInvSig" src="" alt="Digital Signature" style="display: none;"><br>
+                            <span style="font-weight: 700; color: #0F172A; border-top: 1px solid #94A3B8; padding-top: 4px; display: inline-block;">Authorized Signatory</span>
+                        </div>
+                    </div>
+
+                    <!-- Footer Message -->
+                    <div id="previewInvFooterMsg" class="inv-footer-msg">
+                        Thank you for your business!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Engine -->
+    <script src="js/company-settings.js"></script>
+</body>
+</html>
